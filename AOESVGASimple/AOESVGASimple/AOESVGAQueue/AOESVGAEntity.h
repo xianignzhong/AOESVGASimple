@@ -34,7 +34,7 @@
 /**
  SVGA 显示的父视图
  */
-@property (nonatomic, weak)id superView;
+@property (nonatomic, strong)id superView;
 
 
 @end
