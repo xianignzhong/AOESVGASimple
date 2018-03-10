@@ -16,6 +16,7 @@
 		B24775042052541700A2F629 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = B24775032052541700A2F629 /* main.m */; };
 		B247750D20525A7000A2F629 /* AOESVGAQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = B247750C20525A7000A2F629 /* AOESVGAQueue.m */; };
 		B247751020525CC900A2F629 /* AOESVGAEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = B247750F20525CC900A2F629 /* AOESVGAEntity.m */; };
+		B2477519205293C100A2F629 /* SVGAParser+AOESVGAMemory.m in Sources */ = {isa = PBXBuildFile; fileRef = B2477518205293C100A2F629 /* SVGAParser+AOESVGAMemory.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -35,6 +36,8 @@
 		B247750C20525A7000A2F629 /* AOESVGAQueue.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AOESVGAQueue.m; sourceTree = "<group>"; };
 		B247750E20525CC900A2F629 /* AOESVGAEntity.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AOESVGAEntity.h; sourceTree = "<group>"; };
 		B247750F20525CC900A2F629 /* AOESVGAEntity.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AOESVGAEntity.m; sourceTree = "<group>"; };
+		B2477517205293C100A2F629 /* SVGAParser+AOESVGAMemory.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SVGAParser+AOESVGAMemory.h"; sourceTree = "<group>"; };
+		B2477518205293C100A2F629 /* SVGAParser+AOESVGAMemory.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "SVGAParser+AOESVGAMemory.m"; sourceTree = "<group>"; };
 		CB3751AA651F2F015A0C4908 /* Pods-AOESVGASimple.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AOESVGASimple.release.xcconfig"; path = "Pods/Target Support Files/Pods-AOESVGASimple/Pods-AOESVGASimple.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -109,6 +112,8 @@
 				B247750C20525A7000A2F629 /* AOESVGAQueue.m */,
 				B247750E20525CC900A2F629 /* AOESVGAEntity.h */,
 				B247750F20525CC900A2F629 /* AOESVGAEntity.m */,
+				B2477517205293C100A2F629 /* SVGAParser+AOESVGAMemory.h */,
+				B2477518205293C100A2F629 /* SVGAParser+AOESVGAMemory.m */,
 			);
 			path = AOESVGAQueue;
 			sourceTree = "<group>";
@@ -240,6 +245,7 @@
 			files = (
 				B247750D20525A7000A2F629 /* AOESVGAQueue.m in Sources */,
 				B247751020525CC900A2F629 /* AOESVGAEntity.m in Sources */,
+				B2477519205293C100A2F629 /* SVGAParser+AOESVGAMemory.m in Sources */,
 				B24774F92052541700A2F629 /* ViewController.m in Sources */,
 				B24775042052541700A2F629 /* main.m in Sources */,
 				B24774F62052541600A2F629 /* AppDelegate.m in Sources */,

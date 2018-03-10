@@ -16,6 +16,8 @@
 #import "SVGA.h"
 #endif
 
+#import "SVGAParser+AOESVGAMemory.h"
+
 @interface AOESVGAQueue ()<SVGAPlayerDelegate>
 
 @property (nonatomic, strong)NSOperationQueue *queue;
@@ -49,15 +51,30 @@
     [entity.superView addSubview:self.aPlayer];
     
     __weak typeof(self)weakSelf = self;
-    [self.parser parseWithURL:[NSURL URLWithString:entity.svga_url] completionBlock:^(SVGAVideoEntity * _Nullable videoItem) {
+    
+    if (self.isMemory == YES) {
         
-        if (videoItem != nil) {
+        [self.parser parseMemoryWithURL:[NSURL URLWithString:entity.svga_url] Version:entity.svga_version completionBlock:^(SVGAVideoEntity * _Nullable videoItem) {
             
-            weakSelf.aPlayer.videoItem = videoItem;
-            [weakSelf.aPlayer startAnimation];
-        }
+            if (videoItem != nil) {
+                
+                weakSelf.aPlayer.videoItem = videoItem;
+                [weakSelf.aPlayer startAnimation];
+            }
+            
+        } failureBlock:nil];
+    }else{
         
-    } failureBlock:nil];
+        [self.parser parseWithURL:[NSURL URLWithString:entity.svga_url] completionBlock:^(SVGAVideoEntity * _Nullable videoItem) {
+            
+            if (videoItem != nil) {
+                
+                weakSelf.aPlayer.videoItem = videoItem;
+                [weakSelf.aPlayer startAnimation];
+            }
+            
+        } failureBlock:nil];
+    }
 }
 
 

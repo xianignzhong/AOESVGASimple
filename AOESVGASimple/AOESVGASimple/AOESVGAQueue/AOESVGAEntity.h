@@ -12,6 +12,11 @@
 @interface AOESVGAEntity : NSObject
 
 /**
+ svga文件版本:如果存在本地存储，可能出现URL相同但服务端文件已经更新
+ */
+@property (nonatomic, strong)NSString *svga_version;
+
+/**
  SVGA URL 网络/本地
  */
 @property (nonatomic, strong)NSString *svga_url;

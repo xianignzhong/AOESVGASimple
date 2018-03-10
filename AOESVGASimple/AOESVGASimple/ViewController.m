@@ -9,6 +9,8 @@
 #import "ViewController.h"
 #import "AOESVGAQueue.h"
 
+#import "SVGAParser+AOESVGAMemory.h"
+
 @interface ViewController ()
 
 @property (nonatomic, strong)AOESVGAQueue *svgaQueue;
@@ -27,46 +29,61 @@
     // Do any additional setup after loading the view, typically from a nib.
     self.items = @[@{
                        @"url":@"https://github.com/yyued/SVGA-Samples/blob/master/angel.svga?raw=true",
-                       @"title":@"爱心天使"
+                       @"title":@"爱心天使",
+                       @"version":@"2.0"
                        },
                    @{
                        @"url":@"https://github.com/yyued/SVGA-Samples/blob/master/halloween.svga?raw=true",
-                       @"title":@"黑暗魔法师"
+                       @"title":@"黑暗魔法师",
+                       @"version":@"1.0"
                        },
                    @{
                        @"url":@"https://github.com/yyued/SVGA-Samples/blob/master/kingset.svga?raw=true",
-                       @"title":@"皇冠头像"
+                       @"title":@"皇冠头像",
+                       @"version":@"1.0"
                        },
                    @{
                        @"url":@"https://github.com/yyued/SVGA-Samples/blob/master/posche.svga?raw=true",
-                       @"title":@"跑车"
+                       @"title":@"跑车",
+                       @"version":@"1.0"
                        },
                    @{
                        @"url":@"https://github.com/yyued/SVGA-Samples/blob/master/rose.svga?raw=true",
-                       @"title":@"梅花开"
+                       @"title":@"梅花开",
+                       @"version":@"1.0"
                        },
                    @{
                        @"url":@"https://github.com/yyued/SVGA-Samples/blob/master/EmptyState.svga?raw=true",
-                       @"title":@"西瓜"
+                       @"title":@"西瓜",
+                       @"version":@"1.0"
                        },
                    @{
                        @"url":@"https://github.com/yyued/SVGA-Samples/blob/master/HamburgerArrow.svga?raw=true",
-                       @"title":@"箭头按钮"
+                       @"title":@"箭头按钮",
+                       @"version":@"1.0"
                        },
                    @{
                        @"url":@"https://github.com/yyued/SVGA-Samples/blob/master/PinJump.svga?raw=true",
-                       @"title":@"跳跳Location"
+                       @"title":@"跳跳Location",
+                       @"version":@"1.0"
                        },
                    @{
                        @"url":@"https://github.com/yyued/SVGA-Samples/blob/master/TwitterHeart.svga?raw=true",
-                       @"title":@"爱心点赞"
+                       @"title":@"爱心点赞",
+                       @"version":@"1.0"
                        },
                    @{
                        @"url":@"https://github.com/yyued/SVGA-Samples/blob/master/Walkthrough.svga?raw=true",
-                       @"title":@"变幻家庭装"
+                       @"title":@"变幻家庭装",
+                       @"version":@"1.0"
                        }
                    ];
     self.i = -1;
+    
+    [SVGAParser removeAllMemorySvgas:^(BOOL suc) {
+        
+        NSLog(@"=======%d", suc);
+    }];
 }
 
 - (IBAction)add:(id)sender {
@@ -79,6 +96,7 @@
     }
     
     AOESVGAEntity * entity = [[AOESVGAEntity alloc]init];
+    entity.svga_version = self.items[self.i][@"version"];
     entity.svga_url = self.items[self.i][@"url"];
     entity.svga_title = self.items[self.i][@"title"];
     entity.superView = self.animationView;
@@ -103,6 +121,7 @@
     if (!_svgaQueue) {
         
         _svgaQueue = [[AOESVGAQueue alloc]init];
+        _svgaQueue.isMemory = YES;
     }
     
     return _svgaQueue;

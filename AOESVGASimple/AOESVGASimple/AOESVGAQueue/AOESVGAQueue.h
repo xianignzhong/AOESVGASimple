@@ -11,6 +11,8 @@
 
 @interface AOESVGAQueue : NSObject
 
+@property (nonatomic, assign)BOOL isMemory;
+
 -(void)addSVGAInQueue:(AOESVGAEntity *)entity;
 
 @end
