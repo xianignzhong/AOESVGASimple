@@ -78,12 +78,23 @@
                             }
                         }];
                         
-                        //svga写入文件
-                        [data writeToFile:svgaFilePath atomically:YES];
-                        
-                        //版本写入文件
-                        NSString * svga_version = (version && ![version isEqualToString:@""]) ? version : @"0";
-                        [svga_version writeToFile:versionFilePath atomically:YES encoding:NSUTF8StringEncoding error:nil];
+                        dispatch_async(dispatch_get_global_queue(0, 0), ^{
+                           
+                            //svga写入文件
+                            BOOL svgaWrite = [data writeToFile:svgaFilePath atomically:YES];
+                            if (svgaWrite == NO) {
+                                
+                                [fileMgr removeItemAtPath:svgaFilePath error:nil];
+                            }
+                            
+                            //版本写入文件
+                            NSString * svga_version = (version && ![version isEqualToString:@""]) ? version : @"0";
+                            BOOL versionWrite = [svga_version writeToFile:versionFilePath atomically:YES encoding:NSUTF8StringEncoding error:nil];
+                            if (versionWrite == NO) {
+                                
+                                [fileMgr removeItemAtPath:versionFilePath error:nil];
+                            }
+                        });
                         
                     }else {
                         if (failureBlock) {
@@ -122,17 +133,28 @@
                         }
                     }];
                     
-                    //svga写入文件
-                    [data writeToFile:svgaFilePath atomically:YES];
-                    
-                    //版本写入文件
-                    NSString * svga_version = (version && ![version isEqualToString:@""]) ? version : @"0";
-                    //检测是否存在Version文件,如果没有创建并写入
-                    if (![fileMgr fileExistsAtPath:versionFilePath]) {
+                    dispatch_async(dispatch_get_global_queue(0, 0), ^{
                         
-                        [fileMgr createFileAtPath:versionFilePath contents:nil attributes:nil];
-                    }
-                    [svga_version writeToFile:versionFilePath atomically:YES encoding:NSUTF8StringEncoding error:nil];
+                        //svga写入文件
+                        BOOL svgaWrite = [data writeToFile:svgaFilePath atomically:YES];
+                        if (svgaWrite == NO) {
+                            
+                            [fileMgr removeItemAtPath:svgaFilePath error:nil];
+                        }
+                        
+                        //版本写入文件
+                        NSString * svga_version = (version && ![version isEqualToString:@""]) ? version : @"0";
+                        //检测是否存在Version文件,如果没有创建并写入
+                        if (![fileMgr fileExistsAtPath:versionFilePath]) {
+                            
+                            [fileMgr createFileAtPath:versionFilePath contents:nil attributes:nil];
+                        }
+                        BOOL versionWrite = [svga_version writeToFile:versionFilePath atomically:YES encoding:NSUTF8StringEncoding error:nil];
+                        if (versionWrite == NO) {
+                            
+                            [fileMgr removeItemAtPath:versionFilePath error:nil];
+                        }
+                    });
                     
                 }else {
                     if (failureBlock) {
@@ -172,17 +194,24 @@
                 }
             }];
             
-            //svga写入文件
-            [fileMgr createFileAtPath:svgaFilePath contents:data attributes:nil];
-            
-            //版本写入文件
-            NSString * svga_version = (version && ![version isEqualToString:@""]) ? version : @"0";
-            //检测是否存在Version文件,如果没有创建并写入
-            if (![fileMgr fileExistsAtPath:versionFilePath]) {
+            dispatch_async(dispatch_get_global_queue(0, 0), ^{
                 
-                [fileMgr createFileAtPath:versionFilePath contents:nil attributes:nil];
-            }
-            [svga_version writeToFile:versionFilePath atomically:YES encoding:NSUTF8StringEncoding error:nil];
+                //svga写入文件
+                [fileMgr createFileAtPath:svgaFilePath contents:data attributes:nil];
+                
+                //版本写入文件
+                NSString * svga_version = (version && ![version isEqualToString:@""]) ? version : @"0";
+                //检测是否存在Version文件,如果没有创建并写入
+                if (![fileMgr fileExistsAtPath:versionFilePath]) {
+                    
+                    [fileMgr createFileAtPath:versionFilePath contents:nil attributes:nil];
+                }
+                BOOL versionWrite = [svga_version writeToFile:versionFilePath atomically:YES encoding:NSUTF8StringEncoding error:nil];
+                if (versionWrite == NO) {
+                    
+                    [fileMgr removeItemAtPath:versionFilePath error:nil];
+                }
+            });
             
         }else {
             if (failureBlock) {
