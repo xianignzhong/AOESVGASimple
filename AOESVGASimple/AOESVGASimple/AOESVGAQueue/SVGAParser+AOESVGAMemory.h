@@ -14,7 +14,7 @@
 #import "SVGAParser.h"
 #endif
 
-#define AOESVGAMemoryDir @"SVGA"
+#define AOESVGAMemoryDir @"SVGA" //设置Document 下SVGA文件存储路径
 
 @interface SVGAParser (AOESVGAMemory)
 

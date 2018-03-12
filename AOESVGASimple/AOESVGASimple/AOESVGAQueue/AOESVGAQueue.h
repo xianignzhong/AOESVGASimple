@@ -11,8 +11,16 @@
 
 @interface AOESVGAQueue : NSObject
 
+/**
+ 是否开启本地存储
+ */
 @property (nonatomic, assign)BOOL isMemory;
 
+/**
+ 添加动画进队列
+
+ @param entity 动画信息对象
+ */
 -(void)addSVGAInQueue:(AOESVGAEntity *)entity;
 
 @end

@@ -103,6 +103,7 @@
 
 - (IBAction)clear:(id)sender {
     
+    __weak typeof(self) weakSelf = self;
     [SVGAParser removeAllMemorySvgas:^(BOOL suc) {
         
         if (suc) {
@@ -113,13 +114,14 @@
             UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"好的" style:UIAlertActionStyleDefault handler:nil];
             [alertController addAction:cancelAction];
             [alertController addAction:okAction];
-            [self presentViewController:alertController animated:YES completion:nil];
+            [weakSelf presentViewController:alertController animated:YES completion:nil];
         }
     }];
 }
 
 - (IBAction)calculation:(id)sender {
     
+    __weak typeof(self) weakSelf = self;
     [SVGAParser memoryAllSzie:^(NSUInteger size) {
         
         UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"标题" message:[NSString stringWithFormat:@"%ldK",(long)size] preferredStyle:UIAlertControllerStyleAlert];
@@ -127,7 +129,7 @@
         UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"好的" style:UIAlertActionStyleDefault handler:nil];
         [alertController addAction:cancelAction];
         [alertController addAction:okAction];
-        [self presentViewController:alertController animated:YES completion:nil];
+        [weakSelf presentViewController:alertController animated:YES completion:nil];
     }];
 }
 
