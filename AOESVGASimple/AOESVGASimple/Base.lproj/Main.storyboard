@@ -6,6 +6,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <capability name="Navigation items with more than one left or right bar item" minToolsVersion="7.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -93,7 +94,20 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
-                    <navigationItem key="navigationItem" title="SVGAQueue" id="Nc5-rt-g0m"/>
+                    <navigationItem key="navigationItem" title="SVGAQueue" id="Nc5-rt-g0m">
+                        <rightBarButtonItems>
+                            <barButtonItem title="计算内存" id="cjz-WJ-sfq">
+                                <connections>
+                                    <action selector="calculation:" destination="BYZ-38-t0r" id="3AH-Br-bJb"/>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem title="清理内存" id="J9b-i1-RZJ">
+                                <connections>
+                                    <action selector="clear:" destination="BYZ-38-t0r" id="NXV-Th-gID"/>
+                                </connections>
+                            </barButtonItem>
+                        </rightBarButtonItems>
+                    </navigationItem>
                     <connections>
                         <outlet property="animationView" destination="EoS-pY-789" id="mOc-31-dKZ"/>
                     </connections>

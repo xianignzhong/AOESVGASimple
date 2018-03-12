@@ -80,10 +80,6 @@
                    ];
     self.i = -1;
     
-    [SVGAParser removeAllMemorySvgas:^(BOOL suc) {
-        
-        NSLog(@"=======%d", suc);
-    }];
 }
 
 - (IBAction)add:(id)sender {
@@ -104,6 +100,38 @@
     
     [self.svgaQueue addSVGAInQueue:entity];
 }
+
+- (IBAction)clear:(id)sender {
+    
+    [SVGAParser removeAllMemorySvgas:^(BOOL suc) {
+        
+        if (suc) {
+            
+            //清理完成
+            UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"标题" message:@"SVGA文件清理完成" preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
+            UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"好的" style:UIAlertActionStyleDefault handler:nil];
+            [alertController addAction:cancelAction];
+            [alertController addAction:okAction];
+            [self presentViewController:alertController animated:YES completion:nil];
+        }
+    }];
+}
+
+- (IBAction)calculation:(id)sender {
+    
+    [SVGAParser memoryAllSzie:^(NSUInteger size) {
+        
+        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"标题" message:[NSString stringWithFormat:@"%ldK",(long)size] preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
+        UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"好的" style:UIAlertActionStyleDefault handler:nil];
+        [alertController addAction:cancelAction];
+        [alertController addAction:okAction];
+        [self presentViewController:alertController animated:YES completion:nil];
+    }];
+}
+
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

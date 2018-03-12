@@ -195,24 +195,67 @@
     }] resume];
 }
 
-+(NSInteger)memoryAllSzie{
++(void)memoryAllSzie:(void (^)(NSUInteger))sucBlock{
     
-    return 0;
+    //异步计算
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        
+        NSString *memoryDirPath = [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject] stringByAppendingString:[NSString stringWithFormat:@"/%@",AOESVGAMemoryDir]];
+        NSFileManager *fileManager = [NSFileManager defaultManager];
+        
+        BOOL dir = NO;
+        [fileManager fileExistsAtPath:memoryDirPath isDirectory:&dir];
+        
+        NSUInteger totalByteSize = 0;
+        
+        if (dir) { //存在SVGA文件夹 计算存储
+            
+            NSDirectoryEnumerator *enumerator = [fileManager enumeratorAtPath:memoryDirPath];
+            for (NSString *subpath in enumerator) {
+                // 全路径
+                NSString *fullSubpath = [memoryDirPath stringByAppendingPathComponent:subpath];
+                // 累加文件大小
+                totalByteSize += [fileManager attributesOfItemAtPath:fullSubpath error:nil].fileSize;
+            }
+        }
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+           
+            if (sucBlock) {
+                
+                sucBlock(totalByteSize);
+            }
+        });
+    });
 }
 
 +(void)removeAllMemorySvgas:(void (^)(BOOL))sucBlock{
     
-    NSString *memoryDir = [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject] stringByAppendingString:[NSString stringWithFormat:@"SVGA"]];
-    NSFileManager *fileManager = [NSFileManager defaultManager];
-    
-    if ([fileManager fileExistsAtPath:memoryDir]) {
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+       
+        NSString *memoryDirPath = [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject] stringByAppendingString:[NSString stringWithFormat:@"/%@",AOESVGAMemoryDir]];
+        NSFileManager *fileManager = [NSFileManager defaultManager];
         
-        BOOL isSuccess = [fileManager removeItemAtPath:memoryDir error:nil];
-        sucBlock(isSuccess);
-    }else{
+        BOOL dir = NO;
+        [fileManager fileExistsAtPath:memoryDirPath isDirectory:&dir];
         
-        sucBlock(YES);
-    }
+        BOOL isSuccess = NO;
+        if (dir) { //存在文件夹
+            
+            isSuccess = [fileManager removeItemAtPath:memoryDirPath error:nil];
+            
+        }else{
+            
+            isSuccess = YES;
+        }
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if (sucBlock) {
+                
+                sucBlock(isSuccess);
+            }
+        });
+    });
 }
 
 #pragma mark - Private
@@ -220,9 +263,12 @@
 -(nullable NSString *)memorySVGADir:(NSURL *)url{
     
     NSFileManager * fileMgr = [NSFileManager defaultManager];
-    NSString *memoryDir = [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject] stringByAppendingString:[NSString stringWithFormat:@"SVGA/%@",[self MD5StringExt:url.absoluteString]]];
+    NSString *memoryDir = [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject] stringByAppendingString:[NSString stringWithFormat:@"/%@/%@",AOESVGAMemoryDir,[self MD5StringExt:url.absoluteString]]];
     
-    if (![fileMgr fileExistsAtPath:memoryDir]) { //创建文件夹
+    BOOL dir = NO;
+    [fileMgr fileExistsAtPath:memoryDir isDirectory:&dir];
+    
+    if (dir == NO) { //创建文件夹
         
         [fileMgr createDirectoryAtPath:memoryDir withIntermediateDirectories:YES attributes:nil error:nil];
     }
@@ -231,6 +277,7 @@
 }
 
 - (NSString *)MD5StringExt:(NSString *)str {
+    
     const char *cstr = [str UTF8String];
     unsigned char result[16];
     CC_MD5(cstr, (CC_LONG)strlen(cstr), result);

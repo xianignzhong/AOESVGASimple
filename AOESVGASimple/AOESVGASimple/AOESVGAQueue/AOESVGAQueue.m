@@ -77,7 +77,6 @@
     }
 }
 
-
 #pragma mark - <SVGAPlayerDelegate>
 -(void)svgaPlayerDidFinishedAnimation:(SVGAPlayer *)player{
     

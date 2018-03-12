@@ -14,6 +14,8 @@
 #import "SVGAParser.h"
 #endif
 
+#define AOESVGAMemoryDir @"SVGA"
+
 @interface SVGAParser (AOESVGAMemory)
 
 /**
@@ -31,12 +33,12 @@
 /**
  本地存储大小
 
- @return @
+ @param sucBlock size k
  */
-+ (NSInteger )memoryAllSzie;
++ (void)memoryAllSzie:(void (^ _Nullable)(NSUInteger size))sucBlock;
 
 /**
- 移除所欲本地的SVGA相关文件
+ 移除所有本地的SVGA相关文件
  */
 + (void)removeAllMemorySvgas:(void ( ^ _Nullable)(BOOL suc))sucBlock;
 
